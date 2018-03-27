@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 3rd party apps
+{% if cookiecutter.channels|lower == 'true' %}
     'channels',
+{% endif %}
     'rest_framework',
     # My apps
     'accounts.apps.AccountsConfig',
@@ -169,18 +171,19 @@ REST_FRAMEWORK = {
     ],
     'PAGE_SIZE': 20,  # Max number of results returned from a list API call
 }
+{%- if cookiecutter.channels|lower == 'true' %}
+    # Django channels
+    ASGI_APPLICATION = 'config.routing.application'
 
-# Django channels
-ASGI_APPLICATION = 'config.routing.application'
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('{{cookiecutter.project_name}}-redis', 6379)],
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                'hosts': [('{{cookiecutter.project_name}}-redis', 6379)],
+            },
         },
-    },
-}
+    }
+{% endif %}
 
 # CELERY
 CELERY_TIMEZONE = TIME_ZONE

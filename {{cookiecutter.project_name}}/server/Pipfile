@@ -5,14 +5,16 @@ name = "pypi"
 
 [packages]
 Django = "*"
-channels = "*"
+{%- if cookiecutter.channels|lower == 'true' %}
+    channels = "*"
+    channels_redis = "*"
+    daphne = "*"
+    asgiref = "*"
+{% endif %}
 djangorestframework = "*"
 Twisted = {extras = ["http2", "tls"]}
 django-cors-headers = "*"
 "psycopg2-binary" = "*"
-daphne = "*"
-asgiref = "*"
-channels_redis = "*"
 celery = "*"
 kombu = "*"
 django-redis = "*"

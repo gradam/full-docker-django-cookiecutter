@@ -25,7 +25,7 @@ class IsOwnerOrAdmin(BasePermission):
 def get_object_owner(obj) -> User:
     if isinstance(obj, get_user_model()):
         return obj
-    else:
+    elif hasattr(obj, 'user'):
         return obj.user
     raise OwnerError(f'Can\'t find the owner of {obj}')
 

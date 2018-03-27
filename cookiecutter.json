@@ -1,4 +1,5 @@
 {
   "project_name": "test_project",
-  "project_name_camel_case": "TestProject"
+  "project_name_camel_case": "TestProject",
+  "channels": [true, false]
 }

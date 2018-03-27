@@ -1,0 +1,12 @@
+{
+  "features": [
+    {
+      "name": "channels",
+      "enabled": {{cookiecutter.channels|lower}},
+      "resources": [
+        "server/src/config/asgi.py",
+        "server/src/config/routing.py"
+      ]
+    }
+  ]
+}
