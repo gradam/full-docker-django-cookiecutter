@@ -1,6 +1,3 @@
-setup:
-	@make add-git-hooks
-
 add-git-hooks:
 	@\cp git-hook.sh .git/hooks/pre-commit
 	@chmod +rx .git/hooks/pre-commit
