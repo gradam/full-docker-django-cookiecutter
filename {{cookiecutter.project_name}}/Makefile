@@ -147,9 +147,11 @@ dev-reload:
 	@bash dev-reload.sh
 createsu:
 	@docker exec {{cookiecutter.project_name}}-django python src/manage.py createsu
+{% raw %}
 monitor-dying:
 	@docker events --filter event=die --format '{{.Type}} {{.Actor.Attributes.name}} died'\
 	'- exitcode: {{.Actor.Attributes.exitCode}}' | grep -ivE '(?exit|code).*0'
+{% endraw %}
 
 # Tests
 # Starts containers so that we are ready to run tests in them
