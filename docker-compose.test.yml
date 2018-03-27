@@ -1,0 +1,7 @@
+version: '3.6'
+
+services:
+  {{cookiecutter.project_name}}-django:
+    volumes:
+      - ./server/:/opt/{{cookiecutter.project_name}}/django
+    command: bash docker/entrypoint.test.sh

@@ -1,0 +1,21 @@
+FROM python:3.6.4
+
+ENV LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8
+
+WORKDIR /opt/{{cookiecutter.project_name}}/django
+
+# create unprivileged user
+RUN adduser --disabled-password --gecos '' myuser
+RUN set -ex && pip install pipenv --upgrade
+
+COPY Pipfile Pipfile
+COPY Pipfile.lock Pipfile.lock
+
+# Fix for pipenv install --system
+# https://github.com/pypa/pipenv/issues/917#issuecomment-375312947
+RUN ln -sf $(which python) /bin/python
+# install suitable requirements
+RUN pipenv install --dev --system
+
+COPY . .

@@ -1,0 +1,69 @@
+version: '3.6'
+
+
+services:
+  {{cookiecutter.project_name}}-django:
+    build:
+      context: server/
+      dockerfile: docker/Dockerfile-django
+    container_name: '{{cookiecutter.project_name}}-django'
+    labels:
+      application: '{{cookiecutter.project_name}}-django'
+    env_file:
+      - ./server/env/base.env
+    expose:
+      - '8001'
+    depends_on:
+      - {{cookiecutter.project_name}}-postgres
+      - {{cookiecutter.project_name}}-redis
+      - {{cookiecutter.project_name}}-celery
+
+  {{cookiecutter.project_name}}-postgres:
+    image: postgres:latest
+    container_name: '{{cookiecutter.project_name}}-postgres'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: '{{cookiecutter.project_name}}'
+    labels:
+      application: '{{cookiecutter.project_name}}-postgres'
+    volumes:
+      - {{cookiecutter.project_name}}-db-data:/var/lib/postgresql
+    expose:
+      - '5432'
+
+  {{cookiecutter.project_name}}-redis:
+    image: redis:latest
+    container_name: '{{cookiecutter.project_name}}-redis'
+    labels:
+      application: '{{cookiecutter.project_name}}-redis'
+    expose:
+      - '6379'
+
+  {{cookiecutter.project_name}}-rabbitmq:
+    image: rabbitmq:latest
+    container_name: '{{cookiecutter.project_name}}-rabbitmq'
+    labels:
+      application: '{{cookiecutter.project_name}}-rabbitmq'
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=pass
+    expose:
+      - '5672'
+      - '15672'
+
+  {{cookiecutter.project_name}}-celery:
+    build:
+      context: server/
+      dockerfile: docker/Dockerfile-django
+    container_name: '{{cookiecutter.project_name}}-celery'
+    labels:
+      application: '{{cookiecutter.project_name}}-celery'
+    env_file:
+      - server/env/base.env
+    depends_on:
+      - {{cookiecutter.project_name}}-rabbitmq
+    command: bash docker/celery-entrypoint.sh
+
+volumes:
+  {{cookiecutter.project_name}}-db-data:
