@@ -5,12 +5,15 @@ name = "pypi"
 
 [packages]
 Django = "*"
-{%- if cookiecutter.channels|lower == 'true' %}
-    channels = "*"
-    channels_redis = "*"
-    daphne = "*"
-    asgiref = "*"
-{% endif %}
+{%- if cookiecutter.channels == 'yes' %}
+channels = "*"
+channels_redis = "*"
+daphne = "*"
+asgiref = "*"
+{%- endif %}
+{%- if cookiecutter.graphql == 'yes' %}
+graphene-django = "*"
+{%- endif %}
 djangorestframework = "*"
 Twisted = {extras = ["http2", "tls"]}
 django-cors-headers = "*"

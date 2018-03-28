@@ -2,10 +2,18 @@
   "features": [
     {
       "name": "channels",
-      "enabled": {{cookiecutter.channels|lower}},
+      "enabled": "{{cookiecutter.channels|lower}}",
       "resources": [
         "server/src/config/asgi.py",
         "server/src/config/routing.py"
+      ]
+    },
+    {
+      "name": "graphql",
+      "enabled": "{{cookiecutter.channels|lower}}",
+      "resources": [
+        "server/src/config/schema.py",
+        "server/src/accounts/schema.py"
       ]
     }
   ]

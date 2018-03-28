@@ -4,7 +4,7 @@ version: '3.6'
 services:
   {{cookiecutter.project_name}}-django:
     ports:
-      - '80:8001'
+      - '8001:8001'
     env_file:
       - ./server/env/dev.env
     volumes:

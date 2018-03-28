@@ -1,0 +1,12 @@
+0.0.0.0:80 {
+    gzip
+    log stdout
+
+    root /opt/{{cookiecutter.project_name}}/
+
+    proxy / {{cookiecutter.project_name}}-django:8001 {
+        transparent
+        except /static
+    }
+
+}

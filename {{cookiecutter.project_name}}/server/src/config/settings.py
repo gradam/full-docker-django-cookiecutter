@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 3rd party apps
-{% if cookiecutter.channels|lower == 'true' %}
+{%- if cookiecutter.channels == 'yes' %}
     'channels',
-{% endif %}
+{%- endif %}
+{%- if cookiecutter.graphql == 'yes' %}
+    'graphene_django',
+{%- endif %}
     'rest_framework',
     # My apps
     'accounts.apps.AccountsConfig',
@@ -156,6 +159,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/opt/{{cookiecutter.project_name}}/static'
 
 # Rest framework
 LOGIN_URL = 'rest_framework:login'
@@ -171,19 +175,19 @@ REST_FRAMEWORK = {
     ],
     'PAGE_SIZE': 20,  # Max number of results returned from a list API call
 }
-{%- if cookiecutter.channels|lower == 'true' %}
-    # Django channels
-    ASGI_APPLICATION = 'config.routing.application'
+{%- if cookiecutter.channels == 'yes' %}
+# Django channels
+ASGI_APPLICATION = 'config.routing.application'
 
-    CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            'CONFIG': {
-                'hosts': [('{{cookiecutter.project_name}}-redis', 6379)],
-            },
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('{{cookiecutter.project_name}}-redis', 6379)],
         },
-    }
-{% endif %}
+    },
+}
+{%- endif %}
 
 # CELERY
 CELERY_TIMEZONE = TIME_ZONE
@@ -231,3 +235,10 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 # CELERY_WORKER_HIJACK_ROOT_LOGGER = False
 # CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 # CELERY_WORKER_MAX_TASKS_PER_CHILD = 1000
+
+{%- if cookiecutter.graphql == 'yes' %}
+GRAPHENE = {
+    'SCHEMA': 'config.schema.schema' # Where your Graphene schema lives
+}
+{%- endif %}
+

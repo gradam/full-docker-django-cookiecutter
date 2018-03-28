@@ -17,7 +17,15 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 
+{%- if cookiecutter.graphql == 'yes' %}
+from graphene_django.views import GraphQLView
+{%- endif %}
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
+{%- if cookiecutter.graphql == 'yes' %}
+    path('graphql', GraphQLView.as_view(graphiql=True)),
+{%- endif %}
 ]

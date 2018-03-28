@@ -17,6 +17,8 @@ services:
       - {{cookiecutter.project_name}}-postgres
       - {{cookiecutter.project_name}}-redis
       - {{cookiecutter.project_name}}-celery
+    volumes:
+      - {{cookiecutter.project_name}}-static-files:/opt/{{cookiecutter.project_name}}/static
 
   {{cookiecutter.project_name}}-postgres:
     image: postgres:latest
@@ -65,5 +67,26 @@ services:
       - {{cookiecutter.project_name}}-rabbitmq
     command: bash docker/celery-entrypoint.sh
 
+  {{cookiecutter.project_name}}-caddy:
+    image: abiosoft/caddy:latest
+    container_name: '{{cookiecutter.project_name}}-caddy'
+    labels:
+      application: '{{cookiecutter.project_name}}-caddy'
+    env_file:
+      - caddy/base.env
+    environment:
+     - CADDYPATH=/etc/caddycerts
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - {{cookiecutter.project_name}}-django
+    volumes:
+      - ./caddy/conf/Caddyfile:/etc/Caddyfile
+      - {{cookiecutter.project_name}}-caddy-certificate:/etc/caddycerts
+      - {{cookiecutter.project_name}}-static-files:/opt/{{cookiecutter.project_name}}/static
+
 volumes:
   {{cookiecutter.project_name}}-db-data:
+  {{cookiecutter.project_name}}-caddy-certificate:
+  {{cookiecutter.project_name}}-static-files:
