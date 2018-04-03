@@ -1,3 +1,4 @@
+{%- if cookiecutter.drf == 'yes' %}
 from rest_framework import mixins, generics, viewsets, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -99,3 +100,4 @@ class ValidateUniqueFields(APIView):
             response[field] = ['valid', 'invalid'][User.objects.filter(**{kwarg: value}).exists()]
 
         return Response(response)
+{%- endif %}

@@ -1,5 +1,7 @@
+{%- if cookiecutter.drf == 'yes' %}
 from django.conf.urls import url
 from rest_framework.routers import DefaultRouter
+
 
 from accounts.views import ValidateUniqueFields, MyAccount, Users, CreateAccount, ChangePassword
 
@@ -16,3 +18,7 @@ urlpatterns = [
 ]
 
 urlpatterns += router.urls
+{%- endif %}
+{%- if cookiecutter.drf != 'yes' %}
+urlpatterns = []
+{% endif %}

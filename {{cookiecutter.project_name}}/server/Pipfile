@@ -12,7 +12,7 @@ daphne = "*"
 asgiref = "*"
 {%- endif %}
 {%- if cookiecutter.graphql == 'yes' %}
-graphene-django = "*"
+graphene = {extras = ["django"]}
 {%- endif %}
 djangorestframework = "*"
 Twisted = {extras = ["http2", "tls"]}
@@ -22,6 +22,7 @@ celery = "*"
 kombu = "*"
 django-redis = "*"
 delorean = "*"
+django-filter = "*"
 
 [dev-packages]
 pytest = "*"

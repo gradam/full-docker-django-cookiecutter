@@ -22,9 +22,17 @@ from graphene_django.views import GraphQLView
 {%- endif %}
 
 
+api_urlpatterns = [
+    path('accounts/', include('accounts.urls'))
+]
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+{%- if cookiecutter.drf == 'yes' %}
     url(r'^api-auth/', include('rest_framework.urls')),
+    path('api/', include(api_urlpatterns)),
+{%- endif %}
 {%- if cookiecutter.graphql == 'yes' %}
     path('graphql', GraphQLView.as_view(graphiql=True)),
 {%- endif %}

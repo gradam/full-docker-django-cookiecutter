@@ -3,5 +3,6 @@
   "project_name_camel_case": "TestProject",
   "email": "test@example.com",
   "channels": ["yes", "no"],
-  "graphql": ["yes", "no"]
+  "graphql": ["yes", "no"],
+  "drf": ["yes", "no"]
 }

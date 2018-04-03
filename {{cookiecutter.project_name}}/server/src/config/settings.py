@@ -42,13 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 3rd party apps
+    'django_filters',
 {%- if cookiecutter.channels == 'yes' %}
     'channels',
 {%- endif %}
 {%- if cookiecutter.graphql == 'yes' %}
     'graphene_django',
 {%- endif %}
+{%- if cookiecutter.drf == 'yes' %}
     'rest_framework',
+{%- endif %}
     # My apps
     'accounts.apps.AccountsConfig',
 ]
@@ -161,11 +164,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/opt/{{cookiecutter.project_name}}/static'
 
+{%- if cookiecutter.drf == 'yes' %}
 # Rest framework
 LOGIN_URL = 'rest_framework:login'
 LOGOUT_URL = 'rest_framework:logout'
 
-# Rest framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -175,6 +178,8 @@ REST_FRAMEWORK = {
     ],
     'PAGE_SIZE': 20,  # Max number of results returned from a list API call
 }
+{%- endif %}
+
 {%- if cookiecutter.channels == 'yes' %}
 # Django channels
 ASGI_APPLICATION = 'config.routing.application'
@@ -238,7 +243,11 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 
 {%- if cookiecutter.graphql == 'yes' %}
 GRAPHENE = {
-    'SCHEMA': 'config.schema.schema' # Where your Graphene schema lives
+    'SCHEMA': 'config.schema.schema', # Where your Graphene schema lives
+    'MIDDLEWARE': []
 }
+if DEBUG:
+    GRAPHENE['MIDDLEWARE'].append('graphene_django.debug.DjangoDebugMiddleware')
+
 {%- endif %}
 
