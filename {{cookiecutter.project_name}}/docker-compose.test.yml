@@ -4,4 +4,4 @@ services:
   {{cookiecutter.project_name}}-django:
     volumes:
       - ./server/:/opt/{{cookiecutter.project_name}}/django
-    command: bash docker/entrypoint.test.sh
+    command: bash docker/entrypoint-test.sh
