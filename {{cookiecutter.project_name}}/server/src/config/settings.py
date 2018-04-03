@@ -243,11 +243,10 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 
 {%- if cookiecutter.graphql == 'yes' %}
 GRAPHENE = {
-    'SCHEMA': 'config.schema.schema', # Where your Graphene schema lives
-    'MIDDLEWARE': []
+    'SCHEMA': 'config.schema.schema',  # Where your Graphene schema lives
+    'MIDDLEWARE': [],
 }
 if DEBUG:
     GRAPHENE['MIDDLEWARE'].append('graphene_django.debug.DjangoDebugMiddleware')
 
 {%- endif %}
-
